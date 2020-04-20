@@ -1,15 +1,35 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+var AWS = require('aws-sdk');
 
 try {
-  // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
-  console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
-  core.setOutput("time", time);
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
+    const region = core.getInput('region');
+    const accessKeyId = core.getInput('accessKeyId');
+    const secretAccessKey = core.getInput('secretAccessKey');
+    const queueUrl = core.getInput('queueUrl');
+
+    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    console.log(`The event payload: ${payload}`);
+    sendSqsMessage(payload, region, accessKeyId, secretAccessKey, queueUrl)
 } catch (error) {
-  core.setFailed(error.message);
+    core.setFailed(error.message);
+}
+
+function sendSqsMessage(body, region, accessKey, secretKey, queueUrl) {
+    AWS.config.update({region: region, accessKeyId: accessKey, secretAccessKey: secretKey});
+
+    var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
+
+    var params = {
+        MessageBody: body,
+        QueueUrl: queueUrl
+    };
+
+    sqs.sendMessage(params, function (err, data) {
+        if (err) {
+            console.log("Error", err);
+        } else {
+            console.log("Success", data.MessageId);
+        }
+    });
 }

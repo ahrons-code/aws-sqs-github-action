@@ -18,4 +18,7 @@ The time we greeted you.
 
 uses: actions/hello-world-javascript-action@v1
 with:
-  who-to-greet: 'Mona the Octocat'
+  region: 'Mona the Octocat'
+  accessKeyId: 'Mona the Octocat'
+  secretAccessKey: 'Mona the Octocat'
+  queueUrl: 'Mona the Octocat'
