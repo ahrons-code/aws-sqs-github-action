@@ -1,13 +1,15 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'aws sqs github action'
+description: 'Sends a message when the action is triggered with the github context.'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  region:
+    description: 'aws region'
+  accessKeyId:
+    description: 'aws access key'
+  secretAccessKey:
+    description: 'aws secret key'
+  queueUrl:
+    description: 'aws sqs queue url'
+
 runs:
   using: 'node12'
   main: 'index.js'

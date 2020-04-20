@@ -15,10 +15,12 @@ This action prints "Hello World" or "Hello" + the name of a person to greet to t
 The time we greeted you.
 
 ## Example usage
+```yml
+uses: ahrons-code/aws-sqs-github-action@v2
 
-uses: actions/hello-world-javascript-action@v1
 with:
-  region: 'Mona the Octocat'
-  accessKeyId: 'Mona the Octocat'
-  secretAccessKey: 'Mona the Octocat'
-  queueUrl: 'Mona the Octocat'
+  region: ${{ secrets.AWS_REGION }}
+  accessKeyId: ${{ secrets.AWS_ACCESS_KEY }} 
+  secretAccessKey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  queueUrl: ${{ secrets.QUEUE_URL }}
+```
