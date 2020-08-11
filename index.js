@@ -8,7 +8,7 @@ try {
     const secretAccessKey = core.getInput('secretAccessKey');
     const queueUrl = core.getInput('queueUrl');
 
-    const payload = `Build from ${github.actor} repo ${github.repository}`
+    const payload = `Build from ${github.context.actor} repo ${github.context.repo.repo}`
     console.log(`The event payload: ${payload}`);
     sendSqsMessage(payload, region, accessKeyId, secretAccessKey, queueUrl)
 } catch (error) {
